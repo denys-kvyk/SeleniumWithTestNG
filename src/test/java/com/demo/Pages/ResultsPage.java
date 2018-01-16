@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.demo.models.Trip;
+//import com.sun.tools.javac.util.Convert;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -114,6 +115,25 @@ public class ResultsPage {
         logger.info("Fastest Tab");
     }
 
+    public void goToTransportMode (String mode){
+
+        if (mode.equals("Train mode"))
+        {
+            goToTrainMode();
+        }
+        if (mode.equals("Bus mode"))
+        {
+          goToBusMode();
+        }
+        if (mode.equals("Air mode"))
+        {
+            goToAirMode();
+        }
+    else
+        {//default
+            goToTrainMode(); }
+
+    }
 
     public void goToTrainMode() {
         driver.findElements(tranportModeElement).get(0).click();
@@ -128,6 +148,25 @@ public class ResultsPage {
     public void goToBusMode() {
         driver.findElements(tranportModeElement).get(2).click();
         logger.info("Bus mode");
+    }
+
+    private WebElement tableTransportResult(String mode) {
+
+        if (mode.equals("Train mode"))
+        {
+            return trainTableResult();
+        }
+        if (mode.equals("Bus mode"))
+        {
+            return busTableResult();
+        }
+        if (mode.equals("Air mode"))
+        {
+            return planeTableResult();
+        }
+        else
+        {//default
+            return trainTableResult(); }
     }
 
     private WebElement trainTableResult() {
