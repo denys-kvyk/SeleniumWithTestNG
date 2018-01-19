@@ -122,16 +122,13 @@ public class ResultsPage {
             goToTrainMode();
         }
         if (mode.equals("Bus mode"))
-        {
+        {logger.info("if BUS Tab");
           goToBusMode();
         }
         if (mode.equals("Air mode"))
         {
             goToAirMode();
         }
-    else
-        {//default
-            goToTrainMode(); }
 
     }
 
@@ -166,7 +163,8 @@ public class ResultsPage {
         }
         else
         {//default
-            return trainTableResult(); }
+            return trainTableResult();
+        }
     }
 
     private WebElement trainTableResult() {
@@ -181,9 +179,9 @@ public class ResultsPage {
         return driver.findElements(tableResult).get(2);
     }
 
-    public List<String> getPriceOfTrip(WebElement mode) {
+    public List<String> getPriceOfTrip(String mode) {
         List<String> result = new ArrayList();
-        for (WebElement current : mode.findElements(tripPrice)) {
+        for (WebElement current : tableTransportResult(mode).findElements(tripPrice)) {
             result.add(current.getText());
         }
         return result;
@@ -214,9 +212,9 @@ public class ResultsPage {
         return result;
     }
 
-    public List<String> getHoursOfTrip(WebElement mode) {
+    public List<String> getHoursOfTrip(String mode) {
         List<String> result = new ArrayList();
-        for (WebElement current : mode.findElements(tripHours)) {
+        for (WebElement current : tableTransportResult(mode).findElements(tripHours)) {
             result.add(current.getText());
         }
         return result;
@@ -246,12 +244,12 @@ public class ResultsPage {
         return result;
     }
 
-    public Trip returnFirstTripObject(List priceOfTrip, List hourOfTrip, WebElement tableResult) {
-        List price = priceOfTrip;
-        List hour = hourOfTrip;
+    public Trip returnFirstTripObject(String mode) {
+        List price = getPriceOfTrip(mode);
+        List hour = getHoursOfTrip(mode);
         Trip trip=new Trip();
 
-        for (WebElement current : tableResult.findElements(elements)) {
+        for (WebElement current : tableTransportResult(mode).findElements(elements)) {
             String fondPrice = current.findElement(tripPrice).getText();
             String fondHours = current.findElement(tripHours).getText();
             if(fondPrice.equals(price.get(0)) && fondHours.equals(hour.get(0))  )
@@ -284,12 +282,12 @@ public class ResultsPage {
     return trip;
     }
 
-    public List<Trip> getFastestsTrip(List priceOfTrip, List hourOfTrip, WebElement tableResult) {
+    public List<Trip> getFastestsTrip(String mode) {
         List<Trip> fastest = new ArrayList<Trip>();
-        List price = priceOfTrip;
-        List hour = hourOfTrip;
+        List price = getPriceOfTrip(mode);
+        List hour = getHoursOfTrip(mode);
 
-        for (WebElement current : tableResult.findElements(elements)) {
+        for (WebElement current : tableTransportResult(mode).findElements(elements)) {
 
             String fondPrice = current.findElement(tripPrice).getText();
             String fondHours = current.findElement(tripHours).getText();
@@ -324,16 +322,16 @@ public class ResultsPage {
         return fastest;
     }
 
-    public List<Trip> returnCheapestOfTheFastestTrip(List priceOfTrip, List hourOfTrip, WebElement tableResult) {
-        double min=getFastestsTrip(priceOfTrip, hourOfTrip, tableResult).get(0).getPrice();
-        int size  =getFastestsTrip(priceOfTrip, hourOfTrip, tableResult).size();
+    public List<Trip> returnCheapestOfTheFastestTrip(String mode) {
+        double min=getFastestsTrip(mode).get(0).getPrice();
+        int size  =getFastestsTrip(mode).size();
         for (int i=1;i<size;i++) {
-            if(getFastestsTrip(priceOfTrip, hourOfTrip, tableResult).get(i).getPrice()<=min)
-                min=getFastestsTrip(priceOfTrip, hourOfTrip, tableResult).get(i).getPrice();
+            if(getFastestsTrip(mode).get(i).getPrice()<=min)
+                min=getFastestsTrip(mode).get(i).getPrice();
 
         }
         List<Trip> cheapest = new ArrayList<Trip>();
-        for(Trip element : getFastestsTrip(priceOfTrip, hourOfTrip, tableResult))
+        for(Trip element : getFastestsTrip(mode))
         {if(element.getPrice()==min){
             cheapest.add(element);
             logger.info(element);

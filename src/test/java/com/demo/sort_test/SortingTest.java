@@ -38,34 +38,34 @@ public class SortingTest {
 
     @Test(dataProvider="getData")
     public void verifyIfThePriceOfFirstCheapestTrainTripNotNull(String strDeparture, String strArrival) throws InterruptedException {
-        logger.info("verifyIfThePriceOfFirstCheapestTrainTripNotNull test Starts");
+        logger.info("verifyIfThePriceOfFirstCheapestAirTripNotNull test Starts");
         enterSearch(strDeparture,strArrival);
-        verifyThePriceOfFirstCheapestTrainTrip();
-        logger.info("verifyIfThePriceOfFirstCheapestTrainTripNotNull test Finished");
+        verifyThePriceOfFirstCheapestTransportTrip();
+        logger.info("verifyIfThePriceOfFirstCheapestAirTripNotNull test Finished");
     }
 
-    @Test(dataProvider="getData")
-    public void verifyIfThePriceOfFirstFastestTrainTripNotNull(String strDeparture, String strArrival) throws InterruptedException {
-        logger.info("verifyIfThePriceOfFirstFastestTrainTripNotNull test Starts");
-        enterSearch(strDeparture,strArrival);
-        verifyThePriceOfFirstFastestTrainTrip();
-        logger.info("verifyIfThePriceOfFirstFastestTrainTripNotNull test Finished");
-    }
+//    @Test(dataProvider="getData")
+//    public void verifyIfThePriceOfFirstFastestTrainTripNotNull(String strDeparture, String strArrival) throws InterruptedException {
+//        logger.info("verifyIfThePriceOfFirstFastestTrainTripNotNull test Starts");
+//        enterSearch(strDeparture,strArrival);
+//        verifyThePriceOfFirstFastestTrainTrip();
+//        logger.info("verifyIfThePriceOfFirstFastestTrainTripNotNull test Finished");
+//    }
 
-    @Test(dataProvider="getData")
-    public void verifyIfThePriceOfCheapestFromFastestTripNotNull(String strDeparture, String strArrival) throws InterruptedException {
-        logger.info("verifyIfThePriceOfCheapestFromFastestTripNotNull test Starts");
-        enterSearch(strDeparture,strArrival);
-        verifyThePriceOfCheapestFromFastestTrip();
-        logger.info("verifyIfThePriceOfCheapestFromFastestTripNotNull test Finished");
-    }
+//    @Test(dataProvider="getData")
+//    public void verifyIfThePriceOfCheapestFromFastestTripNotNull(String strDeparture, String strArrival) throws InterruptedException {
+//        logger.info("verifyIfThePriceOfCheapestFromFastestTripNotNull test Starts");
+//        enterSearch(strDeparture,strArrival);
+//        verifyThePriceOfCheapestFromFastestTrip();
+//        logger.info("verifyIfThePriceOfCheapestFromFastestTripNotNull test Finished");
+//    }
 
 
 
-    private void verifyThePriceOfFirstCheapestTrainTrip() {
-        resultsPage.goToTrainMode();
+    private void verifyThePriceOfFirstCheapestTransportTrip() {
+        resultsPage.goToTransportMode("Bus mode");
         resultsPage.goToCheapestTab();
-        Assert.assertNotEquals(resultsPage.returnFirstTrainTripObject().getPrice(), null);
+        Assert.assertNotEquals(resultsPage.returnFirstTripObject("Bus mode").getPrice(), null);
     }
     private void verifyThePriceOfFirstFastestTrainTrip() {
         resultsPage.goToTrainMode();
